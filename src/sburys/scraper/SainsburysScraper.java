@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -34,15 +36,16 @@ public class SainsburysScraper
     private final String HTML_LOOKUP_TAG_PRODUCTS = "div[id*=product] div.productInfo";
 
     // Stores all the ProductFile models that are retrieved when scraping the site.
-    private List<ProductFile> productFileList = new ArrayList<ProductFile>();
+    private List<ProductFile> productFileList = new ArrayList<>();
     
     // SiteScraper instance that can be used to scrape the site.
     SiteScraper scraper;
 
     public SainsburysScraper()
     {
-        // Initialize the scrapper
+        // Initialize variables
         scraper = new SiteScraperImpl();
+        productFileList = new ArrayList<>();
 
         // This holds the main site as a document  - Site will be based on the URL - MAIN_SITE_URL.
         Document mainSiteDocument = null;
@@ -84,10 +87,46 @@ public class SainsburysScraper
             // Pass the URL & product file so the advanced product details can be scraped.
             scrapeProductsAdavancedDetails(productDetailsURL, prodFile);
             
+            // Add the product model to the list
+            this.getProductFileList().add(prodFile);
+            
+            // Convert all the scraped products to JSON
+            convertDataToJSON();
+            
             
 
         }
 
+    }
+    
+    /*
+        This method will go though the found Products , convert them to JSON Data & add them to a JSONArray.
+    */
+    public void convertDataToJSON()
+    {
+        // Used to hold all the convert product files
+        JSONArray jsonItemsArr = new JSONArray();
+        BigDecimal priceTotal = BigDecimal.ZERO; // Keep a hold of the price totals to append it to the JSON data.
+
+        // Go through each scraped product
+        for (ProductFile prod : this.getProductFileList())
+        {
+            // Retrieve the price of each Product & add it to the running total "priceTotal"
+            priceTotal = priceTotal.add(prod.getUnitPrice());
+            // Call the method on the product model to retrieve the product as a JSON Object.
+            jsonItemsArr.put(prod.toJSONObj());
+
+        }
+
+        //Store the scraped products in a JSON Object.
+        JSONObject products = new JSONObject();
+        
+        products.put("results", jsonItemsArr); // Add in all the converted product items 
+        products.put("total", priceTotal); // Add the price
+        
+
+        System.out.println("Results:");
+        System.out.println(products);
     }
 
     /*
@@ -152,6 +191,28 @@ public class SainsburysScraper
         System.out.println("    Price : " + unitPrice + " Description : " + description + " kcal: " + kcalPer100g);
 
     }
+
+    public List<ProductFile> getProductFileList()
+    {
+        return productFileList;
+    }
+
+    public void setProductFileList(List<ProductFile> productFileList)
+    {
+        this.productFileList = productFileList;
+    }
+
+    public SiteScraper getScraper()
+    {
+        return scraper;
+    }
+
+    public void setScraper(SiteScraper scraper)
+    {
+        this.scraper = scraper;
+    }
+    
+    
 
     /**
      * @param args the command line arguments
