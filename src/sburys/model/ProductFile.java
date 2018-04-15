@@ -11,15 +11,21 @@ import org.json.JSONObject;
 /**
  *
  * @author NIKUL PATEL
+ * This class is used to model a ProductFile.
  */
 public class ProductFile
 {
 
-    private String title;
-    private int kcalPer100g;
-    private BigDecimal unitPrice;
-    private String description;
-
+    
+        
+    private String title; //Title of the product
+    private int kcalPer100g ; //KCAL value of the product
+    private BigDecimal unitPrice ; //Price of the product
+    private String description ; // Extended description of the product
+    
+    /*
+    * When converting the product to json these keys values are used.
+    */
     private final String JSON_KEY_TITLE = "title";
     private final String JSON_KEY_KCAL = "kcal_per_100g";
     private final String JSON_KEY_UNIT_PRICE = "unit_price";
@@ -78,6 +84,13 @@ public class ProductFile
         this.description = description;
     }
 
+    
+        
+    /*
+    * Takes the values of the productfile & places them into a jsonObject
+    *
+    * @return will be a JSONObject.
+    */ 
     public JSONObject toJSONObj()
     {
         JSONObject product = new JSONObject();

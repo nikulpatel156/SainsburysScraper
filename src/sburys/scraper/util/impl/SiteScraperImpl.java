@@ -20,6 +20,10 @@ import sburys.scraper.util.SiteScraper;
 public class SiteScraperImpl implements SiteScraper
 {
 
+    /*
+        @param url - Takes in a url, used JSOUP to connect to the site & return it as a document.
+        @return document - Document of the site requested.
+    */
     @Override
     public Document getSiteAsDocument(String url) throws IOException
     {
@@ -32,6 +36,12 @@ public class SiteScraperImpl implements SiteScraper
 
     }
 
+    /*
+        @param document - takes in document of a site
+        @param tag - will look for the html in the document for a site. e.g. "div.productInfo" will return ALL the matching divs named productInfo in the site if available.
+    
+        @return element - returns a list of all the matching Elements.
+    */
     @Override
     public Elements findSiteElements(Document document, String tag)
     {
@@ -41,6 +51,12 @@ public class SiteScraperImpl implements SiteScraper
         return elementResults;
     }
 
+    /*
+        @param document - takes in document of a site
+        @param tag - will look for the html in the document for a site. e.g. "div.productInfo" will return the FIRST matching divs named productInfo in the site if available.
+    
+        @return element - Single Element if a matching tag is found.
+    */
     @Override
     public Element findSiteElement(Document document, String tag)
     {

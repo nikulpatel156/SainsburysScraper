@@ -10,10 +10,16 @@ import java.math.BigDecimal;
 /**
  *
  * @author NIKUL PATEL
+ * Class to place commonly used utils.
  */
 public class FormatterUtils
 {
     
+     /*
+        @param unitPrice - Takes in a Alphanumeric value , removes any non numberic values whilst leaving decimal places intact.
+               e.g. "£1.75/unit" will be returned as 1.75
+        @return BigDecimal value 
+    */
     public static BigDecimal cleanseUnitPrice(String unitPrice)
     {
         BigDecimal price = null;
@@ -23,6 +29,13 @@ public class FormatterUtils
         return price;
     }
     
+                
+    /*
+        @param text - Alphanumeric text that we want to remove non numeric values from.
+        @return int - returns an integer        
+   
+        e.g. "33kcal" will be returned as int 33.
+    */
     public static int cleanseAlphaNumToInt(String text)
     { 
 
