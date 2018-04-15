@@ -24,6 +24,11 @@ public class ProductFile
     private final String JSON_KEY_KCAL = "kcal_per_100g";
     private final String JSON_KEY_UNIT_PRICE = "unit_price";
     private final String JSON_KEY_DESCRIPTION = "description";
+    
+    public ProductFile()
+    {
+        
+    }
 
     public ProductFile(String title, String kcalPer100g, BigDecimal unitPrice, String description)
     {
