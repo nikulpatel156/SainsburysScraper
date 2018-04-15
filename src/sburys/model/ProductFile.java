@@ -96,9 +96,14 @@ public class ProductFile
         JSONObject product = new JSONObject();
 
         product.put(JSON_KEY_TITLE, this.getTitle());
-        product.put(JSON_KEY_KCAL, this.getKcalPer100g());
+        
         product.put(JSON_KEY_UNIT_PRICE, this.getUnitPrice());
         product.put(JSON_KEY_DESCRIPTION, this.getDescription());
+        
+        if(this.getKcalPer100g() != 0)
+        {
+            product.put(JSON_KEY_KCAL, this.getKcalPer100g());
+        }
 
         return product;
     }

@@ -152,6 +152,7 @@ public class SainsburysScraper
         
 
         System.out.println("Results:");
+        System.out.println();
         System.out.println(products);
     }
 
