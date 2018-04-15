@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class FormatterUtils
 {
     
-     public static BigDecimal cleanseUnitPrice(String unitPrice)
+    public static BigDecimal cleanseUnitPrice(String unitPrice)
     {
         BigDecimal price = null;
 
@@ -22,5 +22,13 @@ public class FormatterUtils
         price = new BigDecimal(value); 
         return price;
     }
+    
+    public static int cleanseAlphaNumToInt(String text)
+    { 
+
+        String value = text.replaceAll("[^0-9]", "");
+        
+        return Integer.parseInt(value);
+    } 
     
 }

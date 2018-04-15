@@ -66,6 +66,8 @@ public class SainsburysScraper
             System.out.println("Product : " + productTitle);
             scrapeProductsAdavancedDetails(productDetailsURL, prodFile);
             
+            
+
         }
 
     }
@@ -81,16 +83,35 @@ public class SainsburysScraper
         {
             Logger.getLogger(SainsburysScraper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //<div class="productSummary"> - Unit price is contained with this tag
         Element produtSummaryElement = scraper.findSiteElement(subSiteDocument, "div.productSummary");
-        
+
         BigDecimal unitPrice = FormatterUtils.cleanseUnitPrice(produtSummaryElement.selectFirst("p.pricePerUnit").text());
         String description = scraper.findSiteElement(subSiteDocument, "div.productText p").text(); //only get the first p tag to scrape the first line only
-        
+        int kcalPer100g = 0;
+
+        Elements nutritionTableElements = scraper.findSiteElements(subSiteDocument, "table.nutritionTable");
+        Elements rows = nutritionTableElements.select("tr");
+
+        //first row is the col names of the table so skip it.
+        for (int i = 1; i < rows.size(); i++)
+        {
+            Element row = rows.get(i);
+            Element cols = row.selectFirst("td");
+
+            if (row.text().toLowerCase().contains("kcal"))
+            {
+                kcalPer100g = FormatterUtils.cleanseAlphaNumToInt(cols.text());
+                break;
+            }
+        }
+
         prodFile.setUnitPrice(unitPrice);
         prodFile.setDescription(description);
-        System.out.println("    Price : " + unitPrice + " Description : " + description);
+        prodFile.setKcalPer100g(kcalPer100g);
+
+        System.out.println("    Price : " + unitPrice + " Description : " + description + " kcal: " + kcalPer100g);
 
     }
 

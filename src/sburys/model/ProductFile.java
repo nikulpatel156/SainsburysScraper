@@ -16,7 +16,7 @@ public class ProductFile
 {
 
     private String title;
-    private String kcalPer100g;
+    private int kcalPer100g;
     private BigDecimal unitPrice;
     private String description;
 
@@ -30,7 +30,7 @@ public class ProductFile
         
     }
 
-    public ProductFile(String title, String kcalPer100g, BigDecimal unitPrice, String description)
+    public ProductFile(String title, int kcalPer100g, BigDecimal unitPrice, String description)
     {
         this.title = title;
         this.kcalPer100g = kcalPer100g;
@@ -48,12 +48,12 @@ public class ProductFile
         this.title = title;
     }
 
-    public String getKcalPer100g()
+    public int getKcalPer100g()
     {
         return kcalPer100g;
     }
 
-    public void setKcalPer100g(String kcalPer100g)
+    public void setKcalPer100g(int kcalPer100g)
     {
         this.kcalPer100g = kcalPer100g;
     }
