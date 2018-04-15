@@ -56,7 +56,7 @@ public class SainsburysScraper
 
     }
     
-    private void scrapeSite()
+    public void scrapeSite()
     {
         resetVariables();
         
@@ -95,7 +95,7 @@ public class SainsburysScraper
     /*
         @param productItemsElements - List of product elements
     */
-    public void scrapeProductItems(Elements productItemsElements)
+    private void scrapeProductItems(Elements productItemsElements)
     {
         // Depending on how many product were found iterate through each one to scrape the products details.
         for (Element productElement : productItemsElements)
@@ -127,7 +127,7 @@ public class SainsburysScraper
     /*
         This method will go though the found Products , convert them to JSON Data & add them to a JSONArray.
     */
-    public void convertDataToJSON()
+    private void convertDataToJSON()
     {
         // Used to hold all the convert product files
         JSONArray jsonItemsArr = new JSONArray();
@@ -159,7 +159,7 @@ public class SainsburysScraper
         @param prodDetailsURL - URL of the page where the advanced details of the product can be scraped from.
         @param prodFile - ProductFile that will be used to store the found products data.
     */
-    public void scrapeProductAdavancedDetails(String prodDetailsURL, ProductFile prodFile)
+    private void scrapeProductAdavancedDetails(String prodDetailsURL, ProductFile prodFile)
     {
         // Holds the subsite as a document.
         Document subSiteDocument = null;
