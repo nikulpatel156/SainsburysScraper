@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONArray;
@@ -39,14 +40,26 @@ public class SainsburysScraper
     private List<ProductFile> productFileList = new ArrayList<>();
     
     // SiteScraper instance that can be used to scrape the site.
-    SiteScraper scraper;
+    private SiteScraper scraper;
 
     public SainsburysScraper()
     {
+        
         // Initialize variables
         scraper = new SiteScraperImpl();
-        productFileList = new ArrayList<>();
 
+        scrapeSite(); 
+        
+        // Convert all the scraped products to JSON
+        convertDataToJSON();
+         
+
+    }
+    
+    private void scrapeSite()
+    {
+        resetVariables();
+        
         // This holds the main site as a document  - Site will be based on the URL - MAIN_SITE_URL.
         Document mainSiteDocument = null;
         try
@@ -56,6 +69,13 @@ public class SainsburysScraper
         catch (IOException ex)
         {
             Logger.getLogger(SainsburysScraper.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        
+        if(mainSiteDocument == null)
+        {
+            System.out.println("Error : mainSiteDocument is null. Unable to scrape product details.");
+            return;
         }
 
         // Scrape the site looking for products , should return a list of product elements
@@ -64,7 +84,12 @@ public class SainsburysScraper
         
         // Pass the product items to be scraped so each products details can be scraped.
         scrapeProductItems(productItemsElements);
-
+        
+    }
+    
+    private void resetVariables()
+    { 
+        this.setProductFileList(new ArrayList<ProductFile>());        
     }
 
     /*
@@ -85,7 +110,7 @@ public class SainsburysScraper
             System.out.println("Product : " + productTitle);
             
             // Pass the URL & product file so the advanced product details can be scraped.
-            scrapeProductsAdavancedDetails(productDetailsURL, prodFile);
+            scrapeProductAdavancedDetails(productDetailsURL, prodFile);
             
             // Add the product model to the list
             this.getProductFileList().add(prodFile);
@@ -95,8 +120,6 @@ public class SainsburysScraper
         }
         
         
-        // Convert all the scraped products to JSON
-        convertDataToJSON();
             
 
     }
@@ -136,7 +159,7 @@ public class SainsburysScraper
         @param prodDetailsURL - URL of the page where the advanced details of the product can be scraped from.
         @param prodFile - ProductFile that will be used to store the found products data.
     */
-    public void scrapeProductsAdavancedDetails(String prodDetailsURL, ProductFile prodFile)
+    public void scrapeProductAdavancedDetails(String prodDetailsURL, ProductFile prodFile)
     {
         // Holds the subsite as a document.
         Document subSiteDocument = null;
@@ -144,10 +167,18 @@ public class SainsburysScraper
         {
             // Use the scraper to return the site as a document.
             subSiteDocument = scraper.getSiteAsDocument(prodDetailsURL);
+             
         }
         catch (IOException ex)
         {
             Logger.getLogger(SainsburysScraper.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        
+        if(subSiteDocument == null)
+        {
+            System.out.println("Error : subSiteDocument is null. Unable to scrape product details.");
+            return;
         }
 
         //<div class="productSummary"> - Unit price is contained with this tag
