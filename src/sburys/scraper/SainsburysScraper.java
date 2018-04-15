@@ -90,12 +90,14 @@ public class SainsburysScraper
             // Add the product model to the list
             this.getProductFileList().add(prodFile);
             
-            // Convert all the scraped products to JSON
-            convertDataToJSON();
-            
             
 
         }
+        
+        
+        // Convert all the scraped products to JSON
+        convertDataToJSON();
+            
 
     }
     
@@ -121,7 +123,8 @@ public class SainsburysScraper
         //Store the scraped products in a JSON Object.
         JSONObject products = new JSONObject();
         
-        products.put("results", jsonItemsArr); // Add in all the converted product items 
+        
+        products.put("results", jsonItemsArr); // Add in all the converted product items  
         products.put("total", priceTotal); // Add the price
         
 
