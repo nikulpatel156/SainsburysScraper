@@ -6,14 +6,16 @@
 package sburys.scraper;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements; 
+import org.jsoup.select.Elements;
 import sburys.model.ProductFile;
+import sburys.scraper.util.FormatterUtils;
 import sburys.scraper.util.SiteScraper;
 import sburys.scraper.util.impl.SiteScraperImpl;
 
@@ -23,19 +25,18 @@ import sburys.scraper.util.impl.SiteScraperImpl;
  */
 public class SainsburysScraper
 {
-    
+
     private final String MAIN_SITE_URL = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/webapp/wcs/stores/servlet/gb/groceries/berries-cherries-currants6039.html";
-    
+
     private final String HTML_LOOKUP_TAG_PRODUCTS = "div[id*=product] div.productInfo";
-    
+
     private List<ProductFile> productFileList = new ArrayList<ProductFile>();
     SiteScraper scraper;
-    
+
     public SainsburysScraper()
     {
         scraper = new SiteScraperImpl();
-        
-        
+
         Document mainSiteDocument = null;
         try
         {
@@ -45,29 +46,53 @@ public class SainsburysScraper
         {
             Logger.getLogger(SainsburysScraper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         Elements productItemsElements = scraper.findSiteElements(mainSiteDocument, HTML_LOOKUP_TAG_PRODUCTS);
         System.out.println("Found: " + productItemsElements.size() + " products.");
         scrapeProductItems(productItemsElements);
-        
+
     }
-    
+
     public void scrapeProductItems(Elements productItemsElements)
     {
-        
+
         for (Element productElement : productItemsElements)
-        { 
+        {
             ProductFile prodFile = new ProductFile();
             String productTitle = productElement.selectFirst("div.productInfo div.productNameAndPromotions").text();
             String productDetailsURL = productElement.select("a[href]").get(0).attr("abs:href");
-            
+
             prodFile.setTitle(productTitle);
-            System.out.println("productDetailsURL: " + productDetailsURL);
+            System.out.println("Product : " + productTitle);
+            scrapeProductsAdavancedDetails(productDetailsURL, prodFile);
+            
         }
-                
+
     }
-     
+
+    public void scrapeProductsAdavancedDetails(String prodDetailsURL, ProductFile prodFile)
+    {
+        Document subSiteDocument = null;
+        try
+        {
+            subSiteDocument = scraper.getSiteAsDocument(prodDetailsURL);
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(SainsburysScraper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //<div class="productSummary"> - Unit price is contained with this tag
+        Element produtSummaryElement = scraper.findSiteElement(subSiteDocument, "div.productSummary");
+        
+        BigDecimal unitPrice = FormatterUtils.cleanseUnitPrice(produtSummaryElement.selectFirst("p.pricePerUnit").text());
+        String description = scraper.findSiteElement(subSiteDocument, "div.productText p").text(); //only get the first p tag to scrape the first line only
+        
+        prodFile.setUnitPrice(unitPrice);
+        prodFile.setDescription(description);
+        System.out.println("    Price : " + unitPrice + " Description : " + description);
+
+    }
 
     /**
      * @param args the command line arguments
@@ -76,5 +101,5 @@ public class SainsburysScraper
     {
         SainsburysScraper ss = new SainsburysScraper();
     }
-    
+
 }
