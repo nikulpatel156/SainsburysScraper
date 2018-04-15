@@ -222,6 +222,15 @@ public class SainsburysScraper
      */
     public static void main(String[] args)
     {
+        /*
+            Issuse running scraper in java 1.7
+            Error - javax.net.ssl.SSLException: Received fatal alert: protocol_version
+        
+            Fix Found - https://stackoverflow.com/questions/16541627/javax-net-ssl-sslexception-received-fatal-alert-protocol-version
+            Looks like Sainsburys site is using a higher tls than Java1.7 default so needs adding into the allowed protcols.
+        */
+        //
+        java.lang.System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
         SainsburysScraper ss = new SainsburysScraper();
     }
 
