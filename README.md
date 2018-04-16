@@ -67,7 +67,7 @@ In the ProductFile model remove the toJSONObj() , move it to a separate class to
 
 The URL could also do with being validated first before it is used.
 
-The looking up of the kcal value needs to be more robust, it’s reliant upon the row containing the text "kcal". Checks could be to scan the table & check the value is based on per "100g" & nothing else. The kcal value doesn't have a guaranteed index in the nutritionTable so it should can the whole table looking for the value & if it is possible 2 or matches are found there should be some sort of priority to determine which is more accurate.
+The looking up of the kcal value needs to be more robust, it’s reliant upon the row containing the text "kcal". Checks could be to scan the table & check the value is based on per "100g" & nothing else. The kcal value doesn't have a guaranteed index in the nutritionTable so it should scan the whole table looking for the value & if it is possible 2 or more matches are found there should be some sort of priority to determine which is more accurate.
 
 Looking up the product description is reliant on the description being in the first div.productText on the page, there are multiple div.productText in the page so as an added check to ensure the correct value for the description is found you need the look for a h3 with the value "Description" if the dev.productText is after this then it is more likely to be the description.
 
@@ -77,7 +77,7 @@ Could add the option to export the extracted data to a file.
 
 A JSON Validator to ensure the output is in a valid format.
 
-Alot more unit testing is required to ensure the data is being scraped accurately. Mock web sites need to be created which can then be used for testing. Frameworks like mockito can be added mock objects for more robust testing.
+Alot more unit testing is required to ensure the data is being scraped accurately. Mock web sites need to be created which can then be used for testing. Frameworks like mockito can be added to mock objects for more robust testing.
 
 Use Maven or Ant to automate the build process to build the jar & include any dependencies.
 
