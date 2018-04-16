@@ -79,6 +79,8 @@ public class SainsburysScraperConsole
         {
             this.getScraper().scrapeSite();
         }
+        
+        printMenu();
     }
 
     public SainsburysScraper getScraper()

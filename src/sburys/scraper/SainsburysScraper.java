@@ -50,8 +50,6 @@ public class SainsburysScraper
 
         scrapeSite(); 
         
-        // Convert all the scraped products to JSON
-        convertDataToJSON();
          
 
     }
@@ -84,6 +82,10 @@ public class SainsburysScraper
         
         // Pass the product items to be scraped so each products details can be scraped.
         scrapeProductItems(productItemsElements);
+        
+        
+        // Convert all the scraped products to JSON
+        convertDataToJSON();
         
     }
     
