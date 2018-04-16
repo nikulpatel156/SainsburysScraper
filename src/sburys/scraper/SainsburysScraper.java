@@ -190,7 +190,22 @@ public class SainsburysScraper
             The price is likely in the format "£2.50/unit" so pass the value to the FormatterUtils.cleanseUnitPrice() to return just the price as a BigDecimal.
         */
         BigDecimal unitPrice = FormatterUtils.cleanseUnitPrice(produtSummaryElement.selectFirst("p.pricePerUnit").text());
-        String description = scraper.findSiteElement(subSiteDocument, "div.productText p").text(); //only get the first p tag to scrape the first line only
+        
+        String description = "";
+        
+         //only get the first p tag that contains descrption to scrape the first line only
+        Elements descriptions = scraper.findSiteElements(subSiteDocument, "div.productText p");
+        for (Element desc : descriptions)
+        {
+            // If the descpription is not null or Empty then we have the description
+            if(desc.text() != null && !desc.text().isEmpty())
+            {
+                description = desc.text();
+                break;
+            }
+        }
+        
+        
         int kcalPer100g = 0;
 
         /*
