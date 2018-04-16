@@ -26,7 +26,7 @@ Application Instructions
 In the console a menu will be presented. Follow the on screen options to run the application. 
 
 
-#Improvements
+Improvements
 ----------------
 
 
