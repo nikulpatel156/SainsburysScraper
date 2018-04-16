@@ -1,4 +1,6 @@
+package test;
 
+ 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -17,11 +19,17 @@ public class TestRunner
 
     public static void main(String[] args)
     {
+        System.out.println("TestRunner");
         Result result = JUnitCore.runClasses(ClassTest.class);
         
+        System.out.println("Tests Run: " + result.getRunCount()  + " Time: " + result.getRunTime());
+        System.out.println("Tests Successful: " + result.wasSuccessful());
+        System.out.println("Tests Failed: " + result.getFailureCount());
+        
+        System.out.println();
         for (Failure failure : result.getFailures())
         {
-            System.out.println(failure.toString());
+            System.out.println("FAILED TEST: " + failure.toString());
         }
     }
 

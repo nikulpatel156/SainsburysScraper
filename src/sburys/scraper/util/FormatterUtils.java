@@ -39,8 +39,7 @@ public class FormatterUtils
     public static int cleanseAlphaNumToInt(String text)
     { 
 
-        String value = text.replaceAll("[^0-9]", "");
-        
+        String value = text.replaceAll("[^0-9]", ""); 
         return Integer.parseInt(value);
     } 
     
