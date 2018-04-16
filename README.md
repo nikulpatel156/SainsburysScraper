@@ -26,6 +26,20 @@ Application Instructions
 In the console a menu will be presented. Follow the on screen options to run the application. 
 
 
+
+Run Test - Instructions
+----------------
+
+
+ 
+Download the "SainsburysScraperTest.jar" file locally from the /release folder   https://github.com/nikulpatel156/SainsburysScraper/tree/SainsburysScraper/release.
+Navigate the command line to the folder with the downloaded jar.
+ 
+Type the following in the command line to run the application:
+java -jar "SainsburysScraperTest.jar" 
+Test will run & the status will be outputted to the console.
+
+
 Improvements
 ----------------
 
@@ -68,3 +82,31 @@ Alot more unit testing is required to ensure the data is being scraped accuratel
 Use Maven or Ant to automate the build process to build the jar & include any dependencies.
 
 
+
+
+Stories
+----------------
+
+Stories:
+
+Story : As a Sainsburys pricing analyst I want a console application to scan the Sainsburys website & return product details in JSON Format.
+
+Scenario : User is able to run a console application which will return them product data in JSON Format.
+
+
+Story : As a Sainsburys pricing analyst if the kcal value is missing when scraping the website I don't want to see the field in the JSON.
+
+Scenario : if the kcal value was not available when the site was scraped the field should not be include in the JSON data.
+Scenario : kcal value was on the site it should be included into the JSON.
+
+Story : As a Sainsburys pricing analyst I do not want to see "Sainsbury’s Klip Lock Storage Set" data in the JSON results.
+Scenario : Klip lock data should not be scraped or included into the JSON Data
+
+Story : As a Sainsburys pricing analyst all unit pricing should be formatted to 2 decimal places to show pounds & pence clearly.
+Scenario : Pricing should be formatted to 2 decimal places.
+
+Story : As a Sainsburys pricing analyst I want to see the total of all the items scraped from the site.
+Scenario : JSON data should include a total field which contains the sum of all unit prices scraped.
+
+Story : As a Sainsburys pricing analyst if the description on the site is spread along multiple lines I only want to see the first line in the JSON data.
+Scenario : If multiple lines are available when scraping the description only include the first line.
